@@ -32,7 +32,7 @@ class ManagementAkunController extends Controller
                 'name' => 'required|string|max:255',
                 'email' => 'required|email|unique:users,email',
                 'password' => 'required|string|min:6|confirmed',
-                'role' => 'required|in:admin,user',
+                'role' => 'required|in:admin,user,ahli',
                 'nama_lengkap' => 'nullable|string|max:255',
                 'prodi' => 'nullable|string|max:255',
                 'fakultas' => 'nullable|string|max:255',
@@ -69,7 +69,7 @@ class ManagementAkunController extends Controller
                 'name' => 'required|string|max:255',
                 'email' => 'required|email|unique:users,email,' . $id,
                 'password' => 'nullable|string|min:8|confirmed',
-                'role' => 'required|in:admin,user',
+                'role' => 'required|in:admin,user,ahli',
                 'nama_lengkap' => 'nullable|string|max:255',
                 'prodi' => 'nullable|string|max:255',
                 'fakultas' => 'nullable|string|max:255',
@@ -104,7 +104,7 @@ class ManagementAkunController extends Controller
         }
     }
 
-    public function destroy($id)
+    public function destroy( $id)
     {
         try {
             $user = User::findOrFail($id);
