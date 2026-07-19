@@ -32,7 +32,7 @@ class KuesionerController extends Controller
             ['label' => 'Tidak Setuju',         'nilai' => 2],
             ['label' => 'Netral',                'nilai' => 3],
             ['label' => 'Setuju',                'nilai' => 4],
-            ['label' => 'Sangat Setuju',         'nilai' => 5],
+            ['label' => ' SangatSetuju',         'nilai' => 5],
         ];
 
         return view('user.kuesioner.kuesioner', compact('kriteria', 'skala'));
@@ -52,8 +52,8 @@ class KuesionerController extends Controller
         $nilaiPerKriteria = [];
         $nilaiAkhir       = 0;
 
-        foreach ($kriteriaList as $ki => $k) {
-            $jawaban = array_values($jawabanRaw[$ki] ?? []);
+        foreach ($kriteriaList as $ki => $k) { 
+            $jawaban = array_values($jawabanRaw[$ki] ?? []); 
             $avg     = count($jawaban) > 0
                 ? round(array_sum($jawaban) / count($jawaban), 4)
                 : 0;
