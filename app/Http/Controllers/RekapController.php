@@ -4,15 +4,30 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Models\Kriteria;
+use App\Models\Profile;
 use Illuminate\Http\Request;
 
 class RekapController extends Controller
 {
     public function index(Request $request)
     {
-        $users = User::query()
+        // Get sort parameters
+        $sortBy = $request->get('sort', 'name');
+        $sortOrder = $request->get('order', 'asc');
+        $validSortFields = ['name', 'email', 'prodi', 'fakultas', 'angkatan'];
+        
+        // Validate sort field and order
+        if (!in_array($sortBy, $validSortFields)) {
+            $sortBy = 'name';
+        }
+        if (!in_array($sortOrder, ['asc', 'desc'])) {
+            $sortOrder = 'asc';
+        }
+
+        // Build query with search and filter support
+        $query = User::query()
             ->where('role', 'user')
-            ->with(['hasilQuesioners.klasifikasiPenilaian.usahas'])
+            ->with(['profile', 'hasilQuesioners.klasifikasiPenilaian.usahas'])
             ->when($request->filled('search'), function ($q) use ($request) {
                 $search = $request->search;
                 $q->where(function ($qq) use ($search) {
@@ -20,8 +35,37 @@ class RekapController extends Controller
                        ->orWhere('email', 'like', "%{$search}%");
                 });
             })
-            ->orderBy('name')
-            ->get();
+            ->when($request->filled('prodi'), function ($q) use ($request) {
+                $q->whereHas('profile', function ($q2) use ($request) {
+                    $q2->where('prodi', $request->prodi);
+                });
+            })
+            ->when($request->filled('fakultas'), function ($q) use ($request) {
+                $q->whereHas('profile', function ($q2) use ($request) {
+                    $q2->where('fakultas', $request->fakultas);
+                });
+            })
+            ->when($request->filled('angkatan'), function ($q) use ($request) {
+                $q->whereHas('profile', function ($q2) use ($request) {
+                    $q2->where('angkatan', $request->angkatan);
+                });
+            });
+
+        // Apply sorting based on field
+        if (in_array($sortBy, ['prodi', 'fakultas', 'angkatan'])) {
+            $query->leftJoin('profiles', 'users.id', '=', 'profiles.user_id')
+                  ->select('users.*')
+                  ->orderBy("profiles.{$sortBy}", $sortOrder);
+        } else {
+            $query->orderBy('users.' . $sortBy, $sortOrder);
+        }
+
+        $users = $query->get();
+
+        // Filter drop-down options
+        $prodiOptions = Profile::query()->distinct()->orderBy('prodi')->pluck('prodi')->filter()->values();
+        $fakultasOptions = Profile::query()->distinct()->orderBy('fakultas')->pluck('fakultas')->filter()->values();
+        $angkatanOptions = Profile::query()->distinct()->orderBy('angkatan')->pluck('angkatan')->filter()->values();
 
         // Build lightweight rekaps list (don't expand full jawaban here)
         $rekaps = $users->map(function ($user) {
@@ -59,7 +103,7 @@ class RekapController extends Controller
             ];
         });
 
-        return view('ahli.rekap.rekap', compact('rekaps'));
+        return view('ahli.rekap.rekap', compact('rekaps', 'prodiOptions', 'fakultasOptions', 'angkatanOptions'));
     }
 
     /**
