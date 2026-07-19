@@ -15,7 +15,7 @@
     <div class="hero" style="padding:24px 28px; margin-bottom:16px;">
         <div class="hero-label">Penelitian Akademik</div>
         <h1 style="font-size:18px; margin-bottom:4px;">
-            Kuesioner Minat Berwirausaha Mahasiswa ICA
+            Kuesioner Minat Berwirausaha Mahasiswa
         </h1>
         <p style="font-size:12px; opacity:.85; margin:0;">
             Universitas Bahaudin Mudhary Madura —
