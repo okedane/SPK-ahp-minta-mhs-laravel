@@ -175,4 +175,41 @@
     </div>
 
     <!-- ... rest of your modals ... -->
+    <!-- Tambah Pertanyaan Modal -->
+    <div id="myModal" class="modal fade" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true"
+        data-bs-scroll="true" data-bs-backdrop="static">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="myModalLabel">Tambah Pertanyaan</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form class="needs-validation" action="{{ route('pertanyaan.store') }}" method="POST" novalidate>
+                    @csrf
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label class="form-label" for="pertanyaan">Pertanyaan</label>
+                            <input type="text" class="form-control" id="pertanyaan" name="pertanyaan" placeholder="Masukan pertanyaan" required>
+                            <div class="invalid-feedback">Pertanyaan harus diisi.</div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="kriteria_id" class="form-label">Pilih Kriteria</label>
+                            <select class="form-select" id="kriteria_id" name="kriteria_id" required>
+                                <option value="">Pilih Kriteria</option>
+                                @foreach ($kriterias as $k)
+                                    <option value="{{ $k->id }}">{{ $k->nama }}</option>
+                                @endforeach
+                            </select>
+                            <div class="invalid-feedback">Kriteria harus dipilih.</div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary waves-effect" data-bs-dismiss="modal">Tutup</button>
+                        <button type="reset" class="btn btn-secondary waves-effect">Reset</button>
+                        <button type="submit" class="btn btn-primary waves-effect waves-light">Simpan</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 </x-app>

@@ -43,6 +43,18 @@
                         <span data-key="t-dashboard">Rekap Penilaian</span>
                     </a>
                 </li>
+
+                 <li>
+                    <a href="javascript: void(0);" class="has-arrow">
+                        <i data-feather="users"></i>
+                        <span data-key="t-icons">Management Akun</span>
+                    </a>
+                    <ul class="sub-menu" aria-expanded="false">
+                        <li><a href="{{route('user.index')}}">Mahasiswa</a></li>
+                        <li><a href="{{route('ahli.index')}}">Ahli</a></li>
+                        <li><a href="{{route('admin.index')}}">Admin</a></li>
+                    </ul>
+                </li>
                 @endif
 
 
@@ -54,17 +66,7 @@
                         <span data-key="t-dashboard">Dashboard</span>
                     </a>
                 </li>
-                <li>
-                    <a href="javascript: void(0);" class="has-arrow">
-                        <i data-feather="users"></i>
-                        <span data-key="t-icons">Management Akun</span>
-                    </a>
-                    <ul class="sub-menu" aria-expanded="false">
-                        <li><a href="{{route('user.index')}}">Mahasiswa</a></li>
-                        <li><a href="{{route('ahli.index')}}">Ahli</a></li>
-                        <li><a href="{{route('admin.index')}}">Admin</a></li>
-                    </ul>
-                </li>
+               
                 @endif
 
             </ul>

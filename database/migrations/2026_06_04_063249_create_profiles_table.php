@@ -16,6 +16,7 @@ return new class extends Migration
             $table->foreignId('user_id')
                 ->constrained()
                 ->cascadeOnDelete();
+            $table->string('nim')->unique();
             $table->string('nama_lengkap');
             $table->string('prodi');
             $table->string('fakultas')->nullable();

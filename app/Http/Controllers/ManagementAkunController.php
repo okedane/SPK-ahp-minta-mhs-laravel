@@ -33,6 +33,7 @@ class ManagementAkunController extends Controller
                 'email' => 'required|email|unique:users,email',
                 'password' => 'required|string|min:6|confirmed',
                 'role' => 'required|in:admin,user,ahli',
+                'nim' => 'nullable|string|max:255|unique:profiles,nim',
                 'nama_lengkap' => 'nullable|string|max:255',
                 'prodi' => 'nullable|string|max:255',
                 'fakultas' => 'nullable|string|max:255',
@@ -49,6 +50,7 @@ class ManagementAkunController extends Controller
             if ($request->filled('nama_lengkap') || $request->filled('prodi')) {
                 Profile::create([
                     'user_id' => $user->id,
+                    'nim' => $request->nim,
                     'nama_lengkap' => $request->nama_lengkap ?? $request->name,
                     'prodi' => $request->prodi,
                     'fakultas' => $request->fakultas,
@@ -70,6 +72,7 @@ class ManagementAkunController extends Controller
                 'email' => 'required|email|unique:users,email,' . $id,
                 'password' => 'nullable|string|min:8|confirmed',
                 'role' => 'required|in:admin,user,ahli',
+                'nim' => 'nullable|string|max:255|unique:profiles,nim,' . $id . ',user_id',
                 'nama_lengkap' => 'nullable|string|max:255',
                 'prodi' => 'nullable|string|max:255',
                 'fakultas' => 'nullable|string|max:255',
@@ -91,6 +94,7 @@ class ManagementAkunController extends Controller
             Profile::updateOrCreate(
                 ['user_id' => $user->id],
                 [
+                    'nim' => $request->nim,
                     'nama_lengkap' => $request->nama_lengkap ?? $request->name,
                     'prodi' => $request->prodi,
                     'fakultas' => $request->fakultas,

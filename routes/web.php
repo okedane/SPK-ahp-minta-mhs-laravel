@@ -17,7 +17,8 @@ use Illuminate\Support\Facades\Route;
 Route::middleware(['guest'])->group(function () {
     Route::get('/', [AuthController::class, 'login'])->name('login');
     Route::post('login-proses', [AuthController::class, 'login_proses'])->name('login-proses');
-
+    Route::get('/register', [AuthController::class, 'show'])->name('register');
+    Route::post('/register', [AuthController::class, 'register'])->name('register.proses');
     Route::get('forgot', [AuthController::class, 'forgot'])->name('forgot');
     Route::post('forgot-proses', [AuthController::class, 'forgot_proses'])->name('forgot-proses');
     Route::get('verify-code', [AuthController::class, 'verify_code'])->name('verify-code');
@@ -44,8 +45,8 @@ Route::middleware(['auth', 'role:ahli'])->group(function () {
     Route::prefix('pertanyaan')->group(function () {
         Route::get('/', [PertanyaanController::class, 'index'])->name('pertanyaan.index');
         Route::post('/', [PertanyaanController::class, 'store'])->name('pertanyaan.store');
-        Route::put('/{id}', [PertanyaanController::class, 'update'])->name('pertanyaan.update');
-        Route::delete('/{id}', [PertanyaanController::class, 'delete'])->name('pertanyaan.delete');
+        Route::put('/{pertanyaan}', [PertanyaanController::class, 'update'])->name('pertanyaan.update');
+        Route::delete('/{pertanyaan}', [PertanyaanController::class, 'delete'])->name('pertanyaan.delete');
     });
 
 
@@ -76,12 +77,8 @@ Route::middleware(['auth', 'role:ahli'])->group(function () {
         Route::get('/', [RekapController::class, 'index'])->name('rekap.index');
         Route::get('/{id}', [RekapController::class, 'show'])->name('rekap.show');
     });
-});
 
-
-Route::middleware(['auth', 'role:admin'])->group(function () {
-    Route::get('/dashboard-admin', [DashboardController::class, 'admin'])->name('admin.dashboard');
-    Route::prefix('management-akun')->group(function () {
+     Route::prefix('management-akun')->group(function () {
         Route::get('/admin', [ManagementAkunController::class, 'admin'])->name('admin.index');
         Route::get('/user', [ManagementAkunController::class, 'user'])->name('user.index');
         Route::get('/ahli', [ManagementAkunController::class, 'ahli'])->name('ahli.index');
@@ -89,6 +86,12 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
         Route::put('/{id}', [ManagementAkunController::class, 'update'])->name('management-akun.update');
         Route::delete('/{id}', [ManagementAkunController::class, 'destroy'])->name('management-akun.destroy');
     });
+});
+
+
+Route::middleware(['auth', 'role:admin'])->group(function () {
+    Route::get('/dashboard-admin', [DashboardController::class, 'admin'])->name('admin.dashboard');
+   
 });
 
 Route::prefix('user')->group(function () {

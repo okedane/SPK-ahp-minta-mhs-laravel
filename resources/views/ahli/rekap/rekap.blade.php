@@ -75,6 +75,7 @@
                             @forelse ($rekaps as $index => $rekap)
                                 <tr>
                                     <td>{{ $index + 1 }}</td>
+                                    <td>{{ $rekap['user']->profile->nim ?? '-' }}</td>
                                     <td>{{ $rekap['user']->name ?? '-' }}</td>
                                     <td>{{ $rekap['user']->email ?? '-' }}</td>
                                     <td>{{ $rekap['user']->profile->prodi ?? '-' }}</td>

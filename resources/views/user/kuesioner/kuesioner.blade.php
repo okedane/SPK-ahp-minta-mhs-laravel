@@ -130,6 +130,11 @@
                         style="padding:10px 22px;font-size:13px;font-weight:600;display:none;">
                     ✓ Submit
                 </button>
+                <button type="reset" id="btn-reset"
+                        class="btn btn-secondary"
+                        style="padding:10px 22px;font-size:13px;font-weight:600;">
+                    Reset
+                </button>
             </div>
 
         </div>

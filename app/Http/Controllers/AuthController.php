@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
+use App\Models\Profile;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
@@ -35,8 +36,8 @@ class AuthController extends Controller
 
             // Redirect berdasarkan role
             switch (Auth::user()->role) {
-                case 'admin':
-                    return redirect()->route('admin.dashboard')->with('success', 'Login berhasil sebagai Admin');
+                // case 'admin':
+                //     return redirect()->route('admin.dashboard')->with('success', 'Login berhasil sebagai Admin');
                 case 'user':
                     return redirect()->route('user.kuesioner')->with('success', 'Login berhasil sebagai User');
                 case 'ahli':
@@ -174,5 +175,51 @@ class AuthController extends Controller
     {
         Auth::logout();
         return redirect()->route('login');
+    }
+
+
+    public function show()
+    {
+        return view('auth.register');
+    }
+
+    public function register(Request $request)
+    {
+        try {
+            $request->validate([
+                'name'      => 'required|string|max:255',
+                'email'     => 'required|email|unique:users,email',
+                'password'  => 'required|string|min:6|confirmed',
+                'nim'       => 'required|string|max:255',
+                'prodi'     => 'required|string|max:255',
+                'fakultas'  => 'required|string|max:255',
+                'angkatan'  => 'required|string|max:4',
+            ]);
+
+            $user = User::create([
+                'name'     => $request->name,
+                'email'    => $request->email,
+                'password' => Hash::make($request->password),
+                'role'     => 'user',
+            ]);
+
+            // Buat profile dengan data lengkap
+            Profile::create([
+                'user_id'      => $user->id,
+                'nama_lengkap' => $request->name,
+                'nim'          => $request->nim,
+                'prodi'        => $request->prodi,
+                'fakultas'     => $request->fakultas,
+                'angkatan'     => $request->angkatan,
+            ]);
+
+            return redirect()->route('login')
+                ->with('success', 'Registrasi berhasil, silakan login.');
+        } catch (\Exception $e) {
+
+            return back()
+                ->withInput()
+                ->with('error', 'Terjadi kesalahan saat registrasi. Silakan coba lagi.');
+        }
     }
 }

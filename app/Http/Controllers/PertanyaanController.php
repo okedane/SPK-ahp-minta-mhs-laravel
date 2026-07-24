@@ -60,10 +60,10 @@ class PertanyaanController extends Controller
                 'pertanyaan' => 'required',
             ]);
 
-            $pertanyaan = Pertanyaan::find($pertanyaan->id);
             $pertanyaan->kriteria_id = $request->kriteria_id;
             $pertanyaan->pertanyaan = $request->pertanyaan;
-            $pertanyaan->update();  
+            $pertanyaan->save();
+
             return redirect()->route('pertanyaan.index')->with('success', 'Pertanyaan berhasil diupdate');
         }catch  (Exception $e){
             return redirect()->route('pertanyaan.index')->with('error', 'Pertanyaan gagal diupdate');

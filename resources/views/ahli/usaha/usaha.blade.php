@@ -81,6 +81,7 @@
                                                         <div class="modal-footer">
                                                             <button type="button" class="btn btn-secondary"
                                                                 data-bs-dismiss="modal">Batal</button>
+                                                            <button type="reset" class="btn btn-secondary waves-effect">Reset</button>
                                                             <button type="button" class="btn btn-danger"
                                                                 onclick="document.getElementById('deleteForm{{ $item->id }}').submit();">Hapus</button>
                                                         </div>

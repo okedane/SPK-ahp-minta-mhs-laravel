@@ -6,7 +6,7 @@
                 <div class="w-100">
                     <div class="d-flex flex-column h-100">
                         <div class="mb-4 mb-md-5 text-center">
-                            <a href="index.html" class="d-block auth-logo">
+                            <a href="{{ route('login') }}" class="d-block auth-logo">
                                 <img src="{{ asset('assets/images/logo-sm.svg') }}" alt="" height="100">
                                 <span class="logo-txt"></span>
                             </a>
@@ -50,9 +50,18 @@
                                     <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
                                 </div>
-                                <div class="">
-                                    <div class="">
-                                        <a href="{{ route('forgot') }}" class="text-muted">Forgot password?</a>
+                                <div class="mb-3">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" name="remember" id="remember"
+                                                {{ old('remember') ? 'checked' : '' }}>
+                                            <label class="form-check-label" for="remember">
+                                                Remember me
+                                            </label>
+                                        </div>
+                                        <div>
+                                            <a href="{{ route('forgot') }}" class="text-muted">Forgot password?</a>
+                                        </div>
                                     </div>
                                 </div>
                                 <hr>
@@ -67,8 +76,12 @@
                                         Reset
                                     </button>
                                 </div>
+                                <div class="text-center mt-3">
+                                    <p class="mb-2">Belum punya akun? <a href="{{ route('register') }}">Daftar Sekarang</a></p>
+                                </div>
                             </form>
                         </div>
+                        
 
                         <div class="mt-4 mt-md-5 text-center">
                             <p class="mb-0">©

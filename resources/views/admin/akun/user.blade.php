@@ -3,19 +3,7 @@
     <div class="page-content">
         <div class="container-fluid">
             <div class="row">
-                <!-- <div class="col-12">
-                    <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                        <h4 class="mb-sm-0 font-size-18">Manajemen user</h4>
-
-                        <div class="page-title-right">
-                            <ol class="breadcrumb m-0">
-                                <li class="breadcrumb-item"><a href="javascript: void(0);">Tables</a></li>
-                                <li class="breadcrumb-item active">user</li>
-                            </ol>
-                        </div>
-
-                    </div>
-                </div> -->
+                
             </div>
             <div class="row">
                 <div class="col-12">
@@ -33,7 +21,7 @@
                             <thead>
                                 <tr>
                                     <th style="width:20px">No</th>
-
+                                    <th>NIM</th>
                                     <th>Name</th>
                                     <th>Email</th>
                                     <th style="text-align: center; width: 100px;" class="no-export">Action</th>
@@ -44,6 +32,7 @@
                                 @foreach ($user as $item)
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
+                                    <td>{{ $item->profile->nim ?? '-' }}</td>
                                     <td>{{ $item->name }}</td>
                                     <td>{{ $item->email }}</td>
                                     <td style="text-align: center; width: 100px;">
@@ -131,13 +120,13 @@
 
                                                                 <div class="modal-body">
                                                                     <div class="mb-3">
-                                                                        <label class="form-label" for="edit_name_{{ $item->id }}">Name</label>
+                                                                        <label class="form-label" for="edit_name_{{ $item->id }}">Username</label>
                                                                         <input type="text" class="form-control"
                                                                             id="edit_name_{{ $item->id }}"
-                                                                            placeholder="Name" name="name"
+                                                                            placeholder="Username" name="name"
                                                                             value="{{ $item->name }}" required>
                                                                         <div class="invalid-feedback">
-                                                                            Please choose a unique and valid name.
+                                                                            Please choose a unique and valid username.
                                                                         </div>
                                                                     </div>
                                                                     <div class="mb-3">
@@ -149,6 +138,14 @@
                                                                         <div class="invalid-feedback">
                                                                             Please choose a unique and valid email.
                                                                         </div>
+                                                                    </div>
+
+                                                                    <div class="mb-3">
+                                                                        <label class="form-label" for="edit_nim_{{ $item->id }}">NIM</label>
+                                                                        <input type="text" class="form-control"
+                                                                            id="edit_nim_{{ $item->id }}"
+                                                                            placeholder="NIM" name="nim"
+                                                                            value="{{ $item->profile->nim ?? '' }}">
                                                                     </div>
 
                                                                     {{-- Profile Fields --}}
@@ -236,11 +233,11 @@
                                         method="POST" novalidate>
                                         @csrf
                                         <div class="mb-3">
-                                            <label class="form-label" for="validationCustom01">Name</label>
+                                            <label class="form-label" for="validationCustom01">Username</label>
                                             <input type="text" class="form-control" id="validationCustom01"
-                                                placeholder="Name" name="name" required>
+                                                placeholder="Username" name="name" required>
                                             <div class="invalid-feedback">
-                                                Please choose a unique and valid name.
+                                                Please choose a unique and valid username.
                                             </div>
                                         </div>
                                         <div class="mb-3">
@@ -249,6 +246,15 @@
                                                 placeholder="Email" name="email" required>
                                             <div class="invalid-feedback">
                                                 Please choose a unique and valid email.
+                                            </div>
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <label class="form-label" for="validationCustom03">NIM</label>
+                                            <input type="text" class="form-control" id="validationCustom03"
+                                                placeholder="NIM" name="nim" required>
+                                            <div class="invalid-feedback">
+                                                Please enter a valid NIM.
                                             </div>
                                         </div>
 
@@ -347,19 +353,17 @@
         'FST': [
             { value: 'Teknik Informatika', text: 'Teknik Informatika' },
             { value: 'Sistem Informasi', text: 'Sistem Informasi' },
-            { value: 'Teknik Mesin', text: 'Teknik Mesin' }
+            { value: 'Teknik Industri', text: 'Teknik Industri' }
         ],
         'FBA': [
-            { value: 'Bahasa Inggris', text: 'Bahasa Inggris' },
+            { value: 'Bahasa dan Kebudayaan Asing', text: 'Bahasa dan Kebudayaan Asing' },
         ],
         'FIKOM': [
-            { value: 'Jurnalistik', text: 'Jurnalistik' },
-            { value: 'Public Relations', text: 'Public Relations' },
-            { value: 'Advertising', text: 'Advertising' }
+            { value: 'Kajian Film, Televisi, dan Media', text: 'Kajian Film, Televisi, dan Media' },
+           
         ],
         'FH': [
-            { value: 'Hukum Perdata', text: 'Hukum Perdata' },
-            { value: 'Hukum Pidana', text: 'Hukum Pidana' }
+            { value: 'Hukum Bisnis', text: 'Hukum Bisnis' },
         ]
     };
 

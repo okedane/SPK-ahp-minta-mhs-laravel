@@ -63,6 +63,7 @@
                             <button type="submit" class="btn btn-outline-success mt-2 btn-sm">
                                 <i class="mdi mdi-content-save me-1"></i> Simpan Matriks
                             </button>
+                            <button type="reset" class="btn btn-secondary waves-effect">Reset</button>
                         </div>
                     </div>
 
