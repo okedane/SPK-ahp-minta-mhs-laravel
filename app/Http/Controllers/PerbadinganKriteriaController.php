@@ -16,13 +16,11 @@ class PerbadinganKriteriaController extends Controller
         $kriterias = Kriteria::orderBy('id')->get();
         $ids       = $kriterias->pluck('id')->toArray();
 
-        // Ambil hanya pasangan i < j dari DB (nilai asli yang diinput user)
-        // Kebalikan (j, i) = 1/nilai — dihitung di sini, TIDAK disimpan ke DB
         $matriks = $this->bangunMatriks($kriterias, $ids);
 
         $lengkap     = $this->cekLengkap($ids, $matriks);
-        $hasil        = null;
-        $konsistensi  = null;
+        $hasil       = null;
+        $konsistensi = null;
 
         if ($lengkap) {
             $hasil       = $this->hitungNormalisasi($ids, $matriks);
@@ -39,8 +37,7 @@ class PerbadinganKriteriaController extends Controller
     }
 
     /**
-     * Simpan matriks — HANYA pasangan i < j (upper triangle).
-     * Kebalikan TIDAK disimpan ke DB agar nilai asli tidak berubah.
+     * Simpan matriks — dengan validasi normalisasi & konsistensi SEBELUM simpan ke DB.
      */
     public function store(Request $request)
     {
@@ -52,12 +49,51 @@ class PerbadinganKriteriaController extends Controller
         $kriterias = Kriteria::orderBy('id')->get();
         $ids       = $kriterias->pluck('id')->toArray();
 
-        // Hapus dulu semua data lama agar tidak ada konflik
+        // 1) Bangun matriks dari INPUT FORM (belum disimpan ke DB)
+        $matriks = $this->bangunMatriksDariInput($request->matriks, $ids);
+
+        // 2) Cek semua pasangan i < j sudah terisi
+        $lengkap = $this->cekLengkap($ids, $matriks);
+        if (!$lengkap) {
+            return redirect()->back()
+                ->withInput()
+                ->with('error', 'Matriks belum lengkap, masih ada pasangan kriteria yang belum diisi.');
+        }
+
+        // 3) Hitung normalisasi & cek jumlah tiap kolom harus ≈ 1
+        $hasil = $this->hitungNormalisasi($ids, $matriks);
+
+        $toleransi = 0.001;
+        foreach ($hasil['normalisasi'] as $rowId => $cols) {
+            $jumlahBaris = 0;
+            // jumlahkan per kolom hasil normalisasi (bukan per baris)
+        }
+        foreach ($ids as $colId) {
+            $jumlahKolomNormalisasi = 0;
+            foreach ($ids as $rowId) {
+                $jumlahKolomNormalisasi += $hasil['normalisasi'][$rowId][$colId] ?? 0;
+            }
+            if (abs($jumlahKolomNormalisasi - 1) > $toleransi) {
+                return redirect()->back()
+                    ->withInput()
+                    ->with('error', "Normalisasi gagal: jumlah kolom kriteria ID {$colId} = " . round($jumlahKolomNormalisasi, 4) . " (harus mendekati 1). Periksa kembali nilai perbandingan yang diinput.");
+            }
+        }
+
+        // 4) Hitung konsistensi (CR)
+        $konsistensi = $this->hitungKonsistensi($ids, $matriks, $hasil['rataRata']);
+
+        if (!$konsistensi['konsisten']) {
+            return redirect()->back()
+                ->withInput()
+                ->with('error', 'Matriks tidak konsisten (CR = ' . round($konsistensi['cr'], 4) . ', harus ≤ 0.1). Data TIDAK disimpan. Silakan perbaiki nilai perbandingan kriteria.');
+        }
+
+        // 5) Lolos semua validasi → baru simpan ke DB
         PerbadinganKriteria::whereIn('kriteria_id_1', $ids)
             ->whereIn('kriteria_id_2', $ids)
             ->delete();
 
-        // Simpan hanya i < j dari input form
         foreach ($request->matriks as $id1 => $cols) {
             foreach ($cols as $id2 => $nilai) {
                 if (!in_array((int)$id1, $ids) || !in_array((int)$id2, $ids)) {
@@ -72,36 +108,60 @@ class PerbadinganKriteriaController extends Controller
             }
         }
 
-        // Hitung dan simpan bobot ke tabel kriterias
-        $matriks = $this->bangunMatriks($kriterias, $ids);
-        $lengkap  = $this->cekLengkap($ids, $matriks);
-
-        if ($lengkap) {
-            $hasil = $this->hitungNormalisasi($ids, $matriks);
-            foreach ($kriterias as $k) {
-                $k->bobot = round($hasil['rataRata'][$k->id], 4);
-                $k->save();
-            }
+        // 6) Simpan bobot ke tabel kriterias
+        foreach ($kriterias as $k) {
+            $k->bobot = round($hasil['rataRata'][$k->id], 4);
+            $k->save();
         }
 
         return redirect()->route('kriteria.matriks.index')
-            ->with('success', 'Matriks dan bobot kriteria berhasil disimpan.');
+            ->with('success', 'Matriks konsisten (CR = ' . round($konsistensi['cr'], 4) . '). Matriks dan bobot kriteria berhasil disimpan.');
     }
 
     // ----------------------------------------------------------------
-    // HELPER: bangun array matriks penuh dari DB
-    // Hanya i < j yang ada di DB; i > j dihitung sebagai 1/nilai
+    // HELPER: bangun matriks dari INPUT FORM (belum ada di DB)
+    // ----------------------------------------------------------------
+    private function bangunMatriksDariInput(array $inputMatriks, array $ids): array
+    {
+        $matriks = [];
+
+        foreach ($ids as $id) {
+            $matriks[$id][$id] = 1;
+        }
+
+        foreach ($inputMatriks as $id1 => $cols) {
+            foreach ($cols as $id2 => $nilai) {
+                $id1 = (int) $id1;
+                $id2 = (int) $id2;
+
+                if (!in_array($id1, $ids) || !in_array($id2, $ids) || $id1 === $id2) {
+                    continue;
+                }
+
+                $nilai = (float) $nilai;
+                if ($nilai == 0) {
+                    continue;
+                }
+
+                $matriks[$id1][$id2] = $nilai;
+                $matriks[$id2][$id1] = round(1 / $nilai, 4);
+            }
+        }
+
+        return $matriks;
+    }
+
+    // ----------------------------------------------------------------
+    // HELPER: bangun array matriks penuh dari DB (dipakai di index())
     // ----------------------------------------------------------------
     private function bangunMatriks($kriterias, array $ids): array
     {
         $matriks = [];
 
-        // Diagonal = 1
         foreach ($ids as $id) {
             $matriks[$id][$id] = 1;
         }
 
-        // Ambil semua record dari DB (hanya i < j yang tersimpan)
         $pasangan = PerbadinganKriteria::whereIn('kriteria_id_1', $ids)
             ->whereIn('kriteria_id_2', $ids)
             ->get();
@@ -111,10 +171,8 @@ class PerbadinganKriteriaController extends Controller
             $id2   = $p->kriteria_id_2;
             $nilai = (float) $p->nilai;
 
-            // Nilai asli (i < j)
             $matriks[$id1][$id2] = $nilai;
 
-            // Kebalikan dihitung di memory — TIDAK ke DB
             if ($nilai != 0) {
                 $matriks[$id2][$id1] = round(1 / $nilai, 4);
             }
@@ -146,7 +204,6 @@ class PerbadinganKriteriaController extends Controller
     {
         $n = count($ids);
 
-        // Jumlah tiap kolom
         $jumlahKolom = [];
         foreach ($ids as $colId) {
             $jumlahKolom[$colId] = 0;
@@ -155,7 +212,6 @@ class PerbadinganKriteriaController extends Controller
             }
         }
 
-        // Normalisasi
         $normalisasi = [];
         foreach ($ids as $rowId) {
             foreach ($ids as $colId) {
@@ -165,7 +221,6 @@ class PerbadinganKriteriaController extends Controller
             }
         }
 
-        // Rata-rata baris = bobot
         $rataRata = [];
         foreach ($ids as $rowId) {
             $rataRata[$rowId] = array_sum($normalisasi[$rowId]) / $n;

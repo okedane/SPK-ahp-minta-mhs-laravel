@@ -51,8 +51,8 @@
                     </a>
                     <ul class="sub-menu" aria-expanded="false">
                         <li><a href="{{route('user.index')}}">Mahasiswa</a></li>
-                        <li><a href="{{route('ahli.index')}}">Ahli</a></li>
-                        <li><a href="{{route('admin.index')}}">Admin</a></li>
+                        <li><a href="{{route('ahli.index')}}">Admin</a></li>
+                        <!-- <li><a href="{{route('admin.index')}}">Admin</a></li> -->
                     </ul>
                 </li>
                 @endif
