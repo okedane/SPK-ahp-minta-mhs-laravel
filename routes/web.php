@@ -86,6 +86,13 @@ Route::middleware(['auth', 'role:ahli'])->group(function () {
         Route::put('/{id}', [ManagementAkunController::class, 'update'])->name('management-akun.update');
         Route::delete('/{id}', [ManagementAkunController::class, 'destroy'])->name('management-akun.destroy');
     });
+
+   Route::prefix('angkatan')->group(function () {
+    Route::get('/', [\App\Http\Controllers\AngkatanController::class, 'index'])->name('angkatan.index');
+    Route::post('/store', [\App\Http\Controllers\AngkatanController::class, 'store'])->name('angkatan.store');
+    Route::put('/update/{angkatan}', [\App\Http\Controllers\AngkatanController::class, 'update'])->name('angkatan.update');
+    Route::delete('/destroy/{angkatan}', [\App\Http\Controllers\AngkatanController::class, 'destroy'])->name('angkatan.destroy');
+});
 });
 
 

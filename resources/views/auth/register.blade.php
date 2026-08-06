@@ -25,9 +25,10 @@
 
                                 <div class="mb-3">
                                     <label class="form-label">NIM</label>
-                                    <input type="text" class="form-control @error('nim') is-invalid @enderror"
+                                    <input type="number" class="form-control @error('nim') is-invalid @enderror"
                                         name="nim" id="nim" placeholder="Enter NIM"
-                                        value="{{ old('nim') }}">
+                                        value="{{ old('nim') }}"
+                                        inputmode="numeric">
                                     @error('nim')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
@@ -69,10 +70,13 @@
 
                                 <div class="mb-3">
                                     <label class="form-label">Angkatan</label>
-                                    <input type="number" class="form-control @error('angkatan') is-invalid @enderror"
-                                        name="angkatan" id="angkatan" placeholder="Enter Angkatan (tahun)"
-                                        value="{{ old('angkatan') }}"
-                                        min="2000" max="{{ date('Y') + 1 }}">
+                                    <select class="form-select @error('angkatan') is-invalid @enderror"
+                                        id="angkatan" name="angkatan">
+                                        <option value="">-- Pilih Angkatan --</option>
+                                        @foreach($angkatan as $item)
+                                            <option value="{{ $item->angkatan }}" {{ old('angkatan') == $item->angkatan ? 'selected' : '' }}>{{ $item->angkatan }}</option>
+                                        @endforeach
+                                    </select>
                                     @error('angkatan')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror

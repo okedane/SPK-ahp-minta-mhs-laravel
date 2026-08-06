@@ -238,7 +238,7 @@
             const icon = document.getElementById(iconId);
 
             if (input && button && icon) {
-                button.addEventListener('click', function () {
+                button.addEventListener('click', function() {
                     const isPassword = input.type === 'password';
                     input.type = isPassword ? 'text' : 'password';
                     icon.classList.toggle('mdi-eye-outline', !isPassword);
@@ -316,6 +316,23 @@
                     prodi.appendChild(option);
                 });
             }
+        });
+    </script>
+
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const myModal = document.getElementById('myModal');
+            const form = myModal.querySelector('form');
+
+            myModal.addEventListener('hidden.bs.modal', function() {
+                form.reset(); // kosongkan semua input
+                form.classList.remove('was-validated'); // hapus state validasi
+                form.querySelectorAll('.is-invalid').forEach(el => {
+                    el.classList.remove('is-invalid');
+                });
+            });
         });
     </script>
 

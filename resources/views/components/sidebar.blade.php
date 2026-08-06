@@ -43,6 +43,13 @@
                         <span data-key="t-dashboard">Rekap Penilaian</span>
                     </a>
                 </li>
+                
+                <li>
+                    <a href="{{route('angkatan.index')}}" class="waves-effect">
+                        <i data-feather="file-text"></i>
+                        <span data-key="t-dashboard">Angkatan</span>
+                    </a>
+                </li>
 
                  <li>
                     <a href="javascript: void(0);" class="has-arrow">

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Profile;
+use App\Models\Angkatan;
 use Illuminate\Support\Facades\Hash;
 
 class ManagementAkunController extends Controller
@@ -16,7 +17,8 @@ class ManagementAkunController extends Controller
 
     public function user() {
         $user = User::with('profile')->where('role', 'user')->get();
-        return view('admin.akun.user', compact('user'));
+        $angkatan = Angkatan::orderBy('angkatan')->get();
+        return view('admin.akun.user', compact('user', 'angkatan'));
     }
 
      public function ahli() {

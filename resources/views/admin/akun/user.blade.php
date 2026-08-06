@@ -142,7 +142,7 @@
 
                                                                     <div class="mb-3">
                                                                         <label class="form-label" for="edit_nim_{{ $item->id }}">NIM</label>
-                                                                        <input type="text" class="form-control"
+                                                                        <input type="number" class="form-control"
                                                                             id="edit_nim_{{ $item->id }}"
                                                                             placeholder="NIM" name="nim"
                                                                             value="{{ $item->profile->nim ?? '' }}">
@@ -177,11 +177,12 @@
 
                                                                     <div class="mb-3">
                                                                         <label class="form-label" for="edit_angkatan_{{ $item->id }}">Angkatan</label>
-                                                                        <input type="number" class="form-control"
-                                                                            id="edit_angkatan_{{ $item->id }}"
-                                                                            placeholder="Angkatan" name="angkatan"
-                                                                            value="{{ $item->profile->angkatan ?? '' }}"
-                                                                            min="2000" max="{{ date('Y') + 1 }}">
+                                                                        <select class="form-select" id="edit_angkatan_{{ $item->id }}" name="angkatan">
+                                                                            <option value="">-- Pilih Angkatan --</option>
+                                                                            @foreach($angkatan as $angk)
+                                                                                <option value="{{ $angk->angkatan }}" {{ optional($item->profile)->angkatan == $angk->angkatan ? 'selected' : '' }}>{{ $angk->angkatan }}</option>
+                                                                            @endforeach
+                                                                        </select>
                                                                     </div>
 
                                                                     <input type="hidden" name="role" value="user">
@@ -285,10 +286,12 @@
                                         </div>
                                         <div class="mb-3">
                                             <label class="form-label" for="angkatan">Angkatan</label>
-                                            <input type="number" class="form-control"
-                                                id="angkatan"
-                                                placeholder="Angkatan" name="angkatan"
-                                                min="2000" max="{{ date('Y') + 1 }}">
+                                            <select class="form-select" id="angkatan" name="angkatan">
+                                                <option value="">-- Pilih Angkatan --</option>
+                                                @foreach($angkatan as $angk)
+                                                    <option value="{{ $angk->angkatan }}">{{ $angk->angkatan }}</option>
+                                                @endforeach
+                                            </select>
                                         </div>
 
                                         <div class="mb-3">

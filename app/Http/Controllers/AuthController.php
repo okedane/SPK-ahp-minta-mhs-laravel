@@ -10,6 +10,7 @@ use App\Models\Profile;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
+use App\Models\Angkatan;
 
 class AuthController extends Controller
 {
@@ -180,7 +181,8 @@ class AuthController extends Controller
 
     public function show()
     {
-        return view('auth.register');
+        $angkatan = Angkatan::orderBy('angkatan')->get();
+        return view('auth.register', compact('angkatan'));
     }
 
     public function register(Request $request)
