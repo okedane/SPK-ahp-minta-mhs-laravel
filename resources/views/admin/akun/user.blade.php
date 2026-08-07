@@ -235,11 +235,11 @@
                                         method="POST" novalidate>
                                         @csrf
                                         <div class="mb-3">
-                                            <label class="form-label" for="validationCustom01">Username</label>
+                                            <label class="form-label" for="validationCustom01">Nama Lengkap</label>
                                             <input type="text" class="form-control" id="validationCustom01"
-                                                placeholder="Username" name="name" required>
+                                                placeholder="Nama Lengkap" name="name" required>
                                             <div class="invalid-feedback">
-                                                Please choose a unique and valid username.
+                                                Please choose a unique and valid name.
                                             </div>
                                         </div>
                                         <div class="mb-3">
@@ -261,12 +261,12 @@
                                         </div>
 
                                         {{-- Profile Fields --}}
-                                        <div class="mb-3">
+                                        <!-- <div class="mb-3">
                                             <label class="form-label" for="nama_lengkap">Nama Lengkap</label>
                                             <input type="text" class="form-control"
                                                 id="nama_lengkap"
                                                 placeholder="Nama Lengkap" name="nama_lengkap">
-                                        </div>
+                                        </div> -->
                                         <div class="mb-3">
                                             <label class="form-label">Fakultas</label>
                                             <select class="form-select" id="fakultas" name="fakultas">
