@@ -17,10 +17,10 @@
                                 <p class="text-muted mt-2">Reset Password with UNIBA MADURA.</p>
                             </div>
                             @if (session('error'))
-                                <div class="alert alert-danger">{{ session('error') }}</div>
+                            <div class="alert alert-danger">{{ session('error') }}</div>
                             @endif
                             @if (session('success'))
-                                <div class="alert alert-success">{{ session('success') }}</div>
+                            <div class="alert alert-success">{{ session('success') }}</div>
                             @endif
                             <div class="alert alert-success text-center my-4" role="alert">
                                 Enter your Email and instructions will be sent to you!
@@ -32,99 +32,106 @@
                                     <input type="email" class="form-control" id="email" name="email"
                                         placeholder="Enter email">
                                 </div>
-                                 <div class="mb-3">
+                                <div class="mb-3">
                                     <button class="btn w-100 waves-effect waves-light" type="submit"
                                         style="background-color: #006634; border-color: #006634; color: #fff;">
-                                        Send
+                                        Log In
                                     </button>
                                 </div>
-                            </form>
-
-                            <div class="mt-5 text-center">
-                                <p class="text-muted mb-0">Remember It ? <a href="{{ route('login') }}"
-                                        class="text-primary fw-semibold"> Sign In </a> </p>
-                            </div>
-                        </div>
-                        <div class="mt-4 mt-md-5 text-center">
-                            <p class="mb-0">©
-                                <script>
-                                    document.write(new Date().getFullYear())
-                                </script> UNIBA MADURA . Crafted with <i class="mdi mdi-heart text-danger"></i>
-                                by Themesbrand
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- end auth full page content -->
-        </div>
-        <!-- end col -->
-       <div class="col-xxl-9 col-lg-8 col-md-7">
-            <div class="auth-bg pt-md-5 p-4 d-flex">
-                <div class="bg-overlay" style="background-color: #006634;"></div>
-                <ul class="bg-bubbles">
-                    <li></li>
-                    <li></li>
-                    <li></li>
-                    <li></li>
-                    <li></li>
-                    <li></li>
-                    <li></li>
-                    <li></li>
-                    <li></li>
-                    <li></li>
-                </ul>
-                <!-- end bubble effect -->
-                <div class="row justify-content-center align-items-center">
-                    <div class="col-xl-7">
-                        <div class="p-0 p-sm-4 px-xl-0">
-                            <div id="reviewcarouselIndicators" class="carousel slide" data-bs-ride="carousel">
-
-                                <div class="carousel-inner">
-
-                                    <div class="carousel-item active">
-                                        <div class="testi-contain text-white">
-                                            <i class="bx bxs-quote-alt-left text-success display-6"></i>
-
-                                            <h4 class="mt-4 fw-medium lh-base text-white">
-                                                "Sistem pendukung keputusan ini membantu mahasiswa mengetahui tingkat minat berwirausaha secara lebih objektif berdasarkan hasil kuesioner dan perhitungan metode AHP."
-                                            </h4>
-                                        </div>
-                                    </div>
-
-                                    <div class="carousel-item">
-                                        <div class="testi-contain text-white">
-                                            <i class="bx bxs-quote-alt-left text-success display-6"></i>
-
-                                            <h4 class="mt-4 fw-medium lh-base text-white">
-                                                "Dengan adanya sistem ini, proses pengukuran minat berwirausaha mahasiswa menjadi lebih terstruktur, transparan, dan mudah dipahami."
-                                            </h4>
-
-                                        </div>
-                                    </div>
-
-                                    <div class="carousel-item">
-                                        <div class="testi-contain text-white">
-                                            <i class="bx bxs-quote-alt-left text-success display-6"></i>
-
-                                            <h4 class="mt-4 fw-medium lh-base text-white">
-                                                "Metode AHP yang diterapkan pada sistem ini mampu membantu dalam menentukan tingkat minat mahasiswa terhadap dunia wirausaha berdasarkan beberapa kriteria penilaian."
-                                            </h4>
-
-                                        </div>
-                                    </div>
-
+                                <div class="mb-3">
+                                    <button class="btn btn-outline-secondary w-100" type="reset">
+                                        Reset
+                                    </button>
                                 </div>
-                                <!-- end carousel-inner -->
-                                <!-- end carousel-inner -->
+                        
+                    
+                    </form>
+
+                    <div class="mt-5 text-center">
+                        <p class="text-muted mb-0">Remember It ? <a href="{{ route('login') }}"
+                                class="text-primary fw-semibold"> Sign In </a> </p>
+                    </div>
+                </div>
+                <div class="mt-4 mt-md-5 text-center">
+                    <p class="mb-0">©
+                        <script>
+                            document.write(new Date().getFullYear())
+                        </script> UNIBA MADURA . Crafted with <i class="mdi mdi-heart text-danger"></i>
+                        by Themesbrand
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- end auth full page content -->
+    </div>
+    <!-- end col -->
+    <div class="col-xxl-9 col-lg-8 col-md-7">
+        <div class="auth-bg pt-md-5 p-4 d-flex">
+            <div class="bg-overlay" style="background-color: #006634;"></div>
+            <ul class="bg-bubbles">
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+            </ul>
+            <!-- end bubble effect -->
+            <div class="row justify-content-center align-items-center">
+                <div class="col-xl-7">
+                    <div class="p-0 p-sm-4 px-xl-0">
+                        <div id="reviewcarouselIndicators" class="carousel slide" data-bs-ride="carousel">
+
+                            <div class="carousel-inner">
+
+                                <div class="carousel-item active">
+                                    <div class="testi-contain text-white">
+                                        <i class="bx bxs-quote-alt-left text-success display-6"></i>
+
+                                        <h4 class="mt-4 fw-medium lh-base text-white">
+                                            "Sistem pendukung keputusan ini membantu mahasiswa mengetahui tingkat minat berwirausaha secara lebih objektif berdasarkan hasil kuesioner dan perhitungan metode AHP."
+                                        </h4>
+                                    </div>
+                                </div>
+
+                                <div class="carousel-item">
+                                    <div class="testi-contain text-white">
+                                        <i class="bx bxs-quote-alt-left text-success display-6"></i>
+
+                                        <h4 class="mt-4 fw-medium lh-base text-white">
+                                            "Dengan adanya sistem ini, proses pengukuran minat berwirausaha mahasiswa menjadi lebih terstruktur, transparan, dan mudah dipahami."
+                                        </h4>
+
+                                    </div>
+                                </div>
+
+                                <div class="carousel-item">
+                                    <div class="testi-contain text-white">
+                                        <i class="bx bxs-quote-alt-left text-success display-6"></i>
+
+                                        <h4 class="mt-4 fw-medium lh-base text-white">
+                                            "Metode AHP yang diterapkan pada sistem ini mampu membantu dalam menentukan tingkat minat mahasiswa terhadap dunia wirausaha berdasarkan beberapa kriteria penilaian."
+                                        </h4>
+
+                                    </div>
+                                </div>
+
                             </div>
-                            <!-- end review carousel -->
+                            <!-- end carousel-inner -->
+                            <!-- end carousel-inner -->
                         </div>
+                        <!-- end review carousel -->
                     </div>
                 </div>
             </div>
         </div>
-        <!-- end col -->
+    </div>
+    <!-- end col -->
     </div>
 
 </x-login.layout>

@@ -142,9 +142,11 @@
                 </div>
         </div>
 
-        <button type="submit" class="btn btn-primary">
-            Ubah Password
-        </button>
+       <div>
+                        <!-- <button type="button" class="btn btn-secondary waves-effect" data-bs-dismiss="modal">Tutup</button> -->
+                        <button type="reset" class="btn btn-secondary waves-effect">Reset</button>
+                        <button type="submit" class="btn btn-primary waves-effect waves-light">Simpan</button>
+                    </div>
         </form>
     </div>
     </div>
