@@ -42,7 +42,7 @@ class AuthController extends Controller
                 case 'user':
                     return redirect()->route('user.kuesioner')->with('success', 'Login berhasil sebagai User');
                 case 'ahli':
-                    return redirect()->route('ahli.dashboard')->with('success', 'Login berhasil sebagai Ahli');
+                    return redirect()->route('ahli.dashboard')->with('success', 'Login berhasil sebagai Admin');
                 default:
                     Auth::logout();
                     return redirect()->route('login')->with('error', 'Role tidak dikenali.');

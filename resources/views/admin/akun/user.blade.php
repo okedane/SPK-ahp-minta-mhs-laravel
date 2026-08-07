@@ -142,9 +142,10 @@
 
                                                                     <div class="mb-3">
                                                                         <label class="form-label" for="edit_nim_{{ $item->id }}">NIM</label>
-                                                                        <input type="number" class="form-control"
+                                                                        <input type="text" class="form-control"
                                                                             id="edit_nim_{{ $item->id }}"
                                                                             placeholder="NIM" name="nim"
+                                                                            pattern="[0-9]+" inputmode="numeric"
                                                                             value="{{ $item->profile->nim ?? '' }}">
                                                                     </div>
 
@@ -253,9 +254,9 @@
                                         <div class="mb-3">
                                             <label class="form-label" for="validationCustom03">NIM</label>
                                             <input type="text" class="form-control" id="validationCustom03"
-                                                placeholder="NIM" name="nim" required>
+                                                placeholder="NIM" name="nim" pattern="[0-9]+" inputmode="numeric" required>
                                             <div class="invalid-feedback">
-                                                Please enter a valid NIM.
+                                                Please enter a valid NIM (numbers only).
                                             </div>
                                         </div>
 
